@@ -1,0 +1,393 @@
+/* ==========================================================================
+   GazeMM project page
+   Palette is driven by the figure colors (matplotlib tab10 blue / orange)
+   ========================================================================== */
+
+:root {
+  --ink:        #16202a;
+  --ink-soft:   #4a5763;
+  --ink-faint:  #808d99;
+  --rule:       #e2e7ec;
+  --rule-soft:  #eef1f4;
+  --page:       #ffffff;
+  --panel:      #f7f9fb;
+  --accent:     #15628f;   /* deep tab10-blue */
+  --accent-deep:#0f4a6e;   /* hover / pressed */
+  --accent-wash:#e8f1f7;
+  --warm:       #c2620f;   /* tab10-orange, darkened for text contrast */
+  --warm-wash:  #fdf1e6;
+  --maxw:       960px;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
+
+  /* Type scale. Every font-size on the page comes from one of these five steps
+     (plus the fluid h1) so text sizes read as one system rather than a drift. */
+  --fs-xs:   12px;   /* table category labels, copy button              */
+  --fs-sm:   13px;   /* eyebrow labels: venue, h2, table heads, notes    */
+  --fs-md:   15px;   /* secondary text: captions, table body, buttons   */
+  --fs-base: 17px;   /* body                                            */
+  --fs-lg:   19px;   /* h3                                              */
+  --fs-xl:   26px;   /* section headings (h2)                           */
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  line-height: 1.68;
+  color: var(--ink);
+  background: var(--page);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- masthead ---------------------------------------------------- */
+
+.masthead {
+  padding: 72px 0 44px;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+  background:
+    radial-gradient(1100px 340px at 50% -140px, var(--accent-wash) 0%, transparent 70%);
+}
+
+.venue {
+  display: inline-block;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-wash);
+  border-radius: 999px;
+  padding: 5px 15px;
+  margin-bottom: 22px;
+}
+
+h1.title {
+  font-size: clamp(28px, 4.4vw, 41px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+
+h1.title .acro { color: var(--accent); }
+
+.authors {
+  font-size: var(--fs-base);
+  line-height: 2.05;
+  margin: 0 0 6px;
+}
+
+.authors .sep { color: var(--ink-faint); padding: 0 .28em; }
+
+sup.mark {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: .6em;
+  line-height: 0;
+  position: relative;
+  top: -.15em;
+  margin-left: .08em;
+}
+
+.affil {
+  font-size: var(--fs-md);
+  color: var(--ink-soft);
+  margin: 4px 0 2px;
+}
+
+.notes {
+  font-size: var(--fs-sm);
+  color: var(--ink-faint);
+  margin: 10px 0 0;
+}
+
+/* ---------- link buttons ------------------------------------------------ */
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 30px 0 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 19px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: var(--fs-md);
+  font-weight: 550;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  transition: transform .12s ease, background .12s ease;
+}
+
+.btn:hover { transform: translateY(-1px); background: var(--accent-deep); border-color: var(--accent-deep); }
+
+.btn svg { width: 17px; height: 17px; fill: currentColor; flex: none; }
+
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn.ghost:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.btn[aria-disabled="true"] {
+  background: var(--rule-soft);
+  color: var(--ink-faint);
+  border-color: var(--rule);
+  pointer-events: none;
+}
+
+/* ---------- sections ---------------------------------------------------- */
+
+section { padding: 52px 0; border-bottom: 1px solid var(--rule-soft); }
+section:last-of-type { border-bottom: 0; }
+
+h2 {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -.015em;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0 0 22px;
+}
+
+/* Short accent rule under each section heading. */
+h2::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  margin-top: 12px;
+}
+
+h3 {
+  font-size: var(--fs-lg);
+  font-weight: 650;
+  letter-spacing: -.01em;
+  margin: 34px 0 10px;
+}
+
+p { margin: 0 0 16px; }
+p:last-child { margin-bottom: 0; }
+
+/* .lead is kept as a hook but renders at body size: paragraphs inside one
+   section should not change size mid-way. */
+.lead { font-size: var(--fs-base); }
+
+.tight { max-width: 780px; }
+
+a { color: var(--accent); }
+
+/* Left-aligned body text. Justification opened rivers between words on the
+   web (browser hyphenation is unreliable), so ragged-right is used instead. */
+section p,
+figcaption,
+footer p {
+  text-align: left;
+}
+
+/* Display math centres itself; leave it alone. */
+.eq p { text-align: center; }
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .88em;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  padding: .08em .38em;
+}
+
+/* ---------- figures ----------------------------------------------------- */
+
+figure { margin: 0 0 8px; }
+
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+
+figcaption {
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-top: 14px;
+}
+
+figcaption b { color: var(--ink); font-weight: 650; }
+
+figure.narrow { max-width: 730px; margin: 30px auto 8px; }
+
+/* ---------- equation callout -------------------------------------------- */
+
+.eq {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  padding: 6px 22px;
+  margin: 22px 0;
+  overflow-x: auto;
+}
+
+/* ---------- tables ------------------------------------------------------ */
+
+.scroller {
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums;
+}
+
+th, td { padding: 8px 14px; text-align: center; white-space: nowrap; }
+
+th {
+  font-weight: 650;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+}
+
+thead tr:first-child th { padding-top: 13px; }
+
+th.group { border-bottom: 1px solid var(--rule); color: var(--ink); }
+
+th.lead-col, td.lead-col { text-align: left; white-space: nowrap; }
+
+tbody td { border-top: 1px solid var(--rule-soft); }
+
+tbody tr.gap td { border-top: 1px solid var(--rule); }
+
+td b { font-weight: 700; color: var(--ink); }
+td u { text-decoration-color: var(--ink-faint); text-underline-offset: 2px; }
+
+tr.ours { background: var(--accent-wash); }
+tr.ours td { border-top: 1px solid #cfe0ec; }
+tr.ours .lead-col { font-weight: 650; color: var(--accent); }
+
+.cat {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: left;
+  padding-top: 14px;
+}
+
+.arrow { color: var(--warm); font-weight: 700; }
+.gain  { color: var(--warm); font-weight: 700; }
+
+.tcap {
+  text-align: left;
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+}
+
+.tcap b { color: var(--ink); font-weight: 650; }
+
+.tnote { font-size: var(--fs-sm); color: var(--ink-faint); margin: 11px 0 0; }
+
+/* ---------- checkmark cells --------------------------------------------- */
+
+.ck { color: var(--accent); font-weight: 700; }
+.no { color: var(--rule); }
+
+/* ---------- bibtex ------------------------------------------------------ */
+
+.bib {
+  position: relative;
+  background: #16202a;
+  border-radius: 10px;
+  padding: 22px 24px;
+  overflow-x: auto;
+}
+
+.bib pre {
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: var(--fs-sm);
+  line-height: 1.75;
+  color: #dbe4ec;
+}
+
+.bib .bk { color: #7fc3ea; }
+.bib .bs { color: #f0c48a; }
+
+.copy {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: rgba(255,255,255,.09);
+  color: #cfd9e3;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 7px;
+  font: inherit;
+  font-size: var(--fs-xs);
+  padding: 5px 11px;
+  cursor: pointer;
+}
+
+.copy:hover { background: rgba(255,255,255,.18); color: #fff; }
+
+/* ---------- footer ------------------------------------------------------ */
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 34px 0 52px;
+  font-size: var(--fs-md);
+  line-height: 1.68;
+  color: var(--ink-faint);
+}
+
+footer p { margin: 0 0 10px; }
+footer a { color: var(--ink-soft); }
+
+/* ---------- small screens ----------------------------------------------- */
+
+@media (max-width: 640px) {
+  :root {
+    --fs-xl:   23px;
+    --fs-base: 16px;
+  }
+  .wrap { padding: 0 18px; }
+  .masthead { padding: 48px 0 32px; }
+  .venue { margin-bottom: 16px; }
+  .authors { line-height: 1.9; }
+  .links { margin-top: 22px; gap: 8px; }
+  .btn { padding: 8px 15px; }
+  section { padding: 40px 0; }
+  .eq { padding: 6px 14px; }
+  figure.narrow { margin-top: 22px; }
+}

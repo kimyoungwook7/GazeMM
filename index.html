@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>GazeMM: Robust Off-Angle Iris Recognition via Gaze Manifold Matching</title>
+<meta name="description" content="GazeMM models multi-view enrollment embeddings of each identity as an affine subspace and matches a query by its orthogonal residual distance, reaching 0.30% average EER on off-angle iris recognition.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="GazeMM: Robust Off-Angle Iris Recognition via Gaze Manifold Matching">
+<meta property="og:description" content="An identity-specific gaze manifold matching framework for off-angle iris recognition. 0.30% average EER across four off-angle datasets.">
+<meta property="og:image" content="static/images/framework.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁️</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/css/style.css">
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$']] },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+
+<!-- ====================================================================== -->
+<!-- MASTHEAD                                                                -->
+<!-- ====================================================================== -->
+<header class="masthead">
+  <div class="wrap">
+
+    <!-- EDIT: update the venue line once the paper is accepted -->
+    <div class="venue">Submitted to ICASSP 2027</div>
+
+    <h1 class="title"><span class="acro">GazeMM</span>: Robust Off-Angle Iris Recognition via Gaze Manifold Matching</h1>
+
+    <p class="authors">
+      Yewon Min<sup class="mark">&#9733;</sup><span class="sep">&middot;</span>
+      Youngwook Kim<sup class="mark">&#9733;</sup><span class="sep">&middot;</span>
+      Moonwook Ryu<span class="sep">&middot;</span>
+      Jun Seong Lee<sup class="mark">&dagger;</sup>
+    </p>
+
+    <p class="affil">Electronics and Telecommunications Research Institute (ETRI), Daejeon, Republic of Korea</p>
+
+    <p class="notes"><sup class="mark">&#9733;</sup>Equal contribution &nbsp;&nbsp; <sup class="mark">&dagger;</sup>Corresponding author</p>
+
+    <nav class="links">
+      <!-- EDIT: drop the PDF into static/pdfs/ and point href here once the paper is out -->
+      <a class="btn ghost" href="#" aria-disabled="true">
+        <svg viewBox="0 0 384 512"><path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/></svg>
+        Paper (soon)
+      </a>
+
+      <a class="btn" href="https://github.com/kimyoungwook7/GAZEMM">
+        <svg viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>
+        Code
+      </a>
+
+      <a class="btn" href="static/pdfs/GazeMM_supplementary.pdf" download>
+        <svg viewBox="0 0 512 512"><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64z"/></svg>
+        Supplementary (PDF)
+      </a>
+
+      <a class="btn ghost" href="#bibtex">
+        <svg viewBox="0 0 384 512"><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/></svg>
+        BibTeX
+      </a>
+    </nav>
+
+  </div>
+</header>
+
+
+<!-- ====================================================================== -->
+<!-- TEASER                                                                  -->
+<!-- ====================================================================== -->
+<section>
+  <div class="wrap">
+    <figure>
+      <img src="static/images/framework.png"
+           alt="Overview of GazeMM. Enrollment passes an identity's multi-gaze NIR images through a Laplacian quality gate and a shared CNN, then builds an identity-specific affine subspace from the resulting embeddings. Authentication encodes the query the same way, measures its point-to-manifold distance to the enrolled subspace, cohort-normalizes that distance and accepts or rejects.">
+      <figcaption>
+        <b>Overall framework of GazeMM:</b> identity-specific manifold construction during enrollment and
+        manifold-based matching during authentication.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+
+<!-- ====================================================================== -->
+<!-- ABSTRACT                                                                -->
+<!-- ====================================================================== -->
+<section>
+  <div class="wrap">
+    <h2>Abstract</h2>
+    <div class="tight">
+      <p class="lead">Recent deep learning-based iris recognition methods encode iris images as high-dimensional
+        embeddings and typically authenticate a query by directly comparing it with enrollment embeddings using
+        point-to-point matching. Under off-angle acquisition, however, gaze-induced appearance changes introduce
+        substantial intra-class variation, separating embeddings of the same identity and degrading recognition
+        performance.</p>
+      <p>To address this challenge, we propose <b>GazeMM</b>, an identity-specific gaze manifold-based iris
+        matching framework that explicitly models such gaze-induced variation. Given multi-view enrollment
+        embeddings, GazeMM constructs a low-dimensional affine subspace for each identity and matches a query by
+        orthogonal residual distance, followed by cohort-based score normalization. Experimental results show that
+        GazeMM achieves an average equal error rate of <b>0.30%</b> under off-angle conditions, while maintaining
+        competitive performance under frontal acquisition. Moreover, GazeMM remains effective across different
+        iris feature extractors, demonstrating the generality of the proposed matching strategy.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================== -->
+<!-- METHOD                                                                  -->
+<!-- ====================================================================== -->
+<section>
+  <div class="wrap">
+    <h2>Method</h2>
+
+    <div class="tight">
+      <p>GazeMM changes the <em>matching stage</em>, not the feature extractor. Gaze-induced intra-class
+        variation does not scatter isotropically &mdash; it concentrates along a handful of directions in the
+        embedding space. Enrollment therefore collapses an identity's multi-gaze embeddings into an affine
+        subspace $M_i = (\mu_i, U_i)$, and a query is scored by the part of $q - \mu_i$ that those learned
+        directions cannot explain. Variation that merely slides the query <em>along</em> the gaze manifold costs
+        nothing.</p>
+    </div>
+
+    <div class="eq">
+      <p>$$d_i \;=\; \big\lVert (\mathbf{I}_D - U_iU_i^{\top})(q-\mu_i) \big\rVert_2$$</p>
+    </div>
+
+    <div class="tight">
+      <p>A final cohort-based normalization rescales the residual so that one global threshold works across
+        queries and identities.</p>
+    </div>
+
+    <figure class="narrow">
+      <img src="static/images/fig2_matching.svg"
+           alt="PCA projection comparing point-to-point matching, which assigns the query to the wrong identity, against the proposed manifold matching, which assigns it correctly.">
+      <figcaption>
+        <b>What that buys.</b> For the same query $q$ from ID&nbsp;1 (star, CASIA-Iris-Degradation, PCA
+        projection), the nearest <em>individual</em> enrollment embedding belongs to ID&nbsp;2 &mdash; gaze has
+        pushed the genuine points away. Measured against the subspaces $M_i$ (shaded) instead, the residual
+        recovers the correct identity.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+
+<!-- ====================================================================== -->
+<!-- RESULTS                                                                 -->
+<!-- ====================================================================== -->
+<section>
+  <div class="wrap">
+    <h2>Results</h2>
+
+    <p class="tcap">Averaged over four off-angle and eight frontal datasets (%), with subject-disjoint 2-fold
+      cross-validation over three fixed seeds. <b>Bold</b> and <u>underlined</u> denote best and second best.
+      Per-dataset breakdowns, the generality study and the ablation are in the
+      <a href="static/pdfs/GazeMM_supplementary.pdf">supplementary PDF</a>.</p>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2" class="lead-col">Method</th>
+            <th colspan="4" class="group">Off-angle (avg.)</th>
+            <th colspan="4" class="group">Frontal (avg.)</th>
+          </tr>
+          <tr>
+            <th>EER</th><th>FRR</th><th>Rank-1</th><th>FTE</th>
+            <th>EER</th><th>FRR</th><th>Rank-1</th><th>FTE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="cat" colspan="9">Classical</td></tr>
+          <tr><td class="lead-col">WAHET</td><td>35.83</td><td>95.28</td><td>10.60</td><td>0.0</td><td>9.29</td><td>33.02</td><td>90.18</td><td>0.0</td></tr>
+          <tr><td class="lead-col">USITv3</td><td>33.24</td><td>81.71</td><td>50.11</td><td>0.0</td><td>11.13</td><td>20.22</td><td>87.35</td><td>0.0</td></tr>
+          <tr><td class="lead-col">OSIRIS</td><td>24.18</td><td>82.93</td><td>62.07</td><td>9.7</td><td>4.62</td><td>11.67</td><td>97.45</td><td>1.4</td></tr>
+
+          <tr><td class="cat" colspan="9">Hybrid</td></tr>
+          <tr><td class="lead-col">HDBIF</td><td>26.26</td><td>68.27</td><td>77.06</td><td>0.0</td><td>1.41</td><td>2.89</td><td>99.78</td><td>0.0</td></tr>
+          <tr><td class="lead-col">WCI</td><td><u>7.10</u></td><td><u>45.71</u></td><td><u>87.08</u></td><td>39.6</td><td><b>0.18</b></td><td><b>0.22</b></td><td><b>99.94</b></td><td>16.6</td></tr>
+
+          <tr><td class="cat" colspan="9">Deep learning</td></tr>
+          <tr><td class="lead-col">DGR</td><td>17.64</td><td>72.60</td><td>83.96</td><td>20.5</td><td>3.19</td><td>12.26</td><td>99.24</td><td>1.5</td></tr>
+          <tr><td class="lead-col">UE-UGCL</td><td>11.98</td><td>66.30</td><td>84.10</td><td>20.5</td><td>10.49</td><td>51.00</td><td>89.96</td><td>1.5</td></tr>
+          <tr><td class="lead-col">Maxout-BA</td><td>22.13</td><td>81.14</td><td>79.29</td><td>20.5</td><td>15.90</td><td>66.06</td><td>82.70</td><td>1.5</td></tr>
+          <tr><td class="lead-col">ArcIris</td><td>16.52</td><td>59.43</td><td>83.98</td><td>1.2</td><td>0.65</td><td><u>1.17</u></td><td><u>99.85</u></td><td>0.0</td></tr>
+          <tr><td class="lead-col">TripletIris</td><td>15.63</td><td>82.14</td><td>81.96</td><td>0.0</td><td>0.83</td><td>3.15</td><td>99.80</td><td>0.0</td></tr>
+
+          <tr class="ours gap"><td class="lead-col">GazeMM (Ours)</td><td><b>0.30</b></td><td><b>9.49</b></td><td><b>89.40</b></td><td>2.8</td><td><u>0.37</u></td><td>1.95</td><td><u>99.85</u></td><td>2.7</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tnote">Samples that fail to enroll are excluded from the matching pool, so methods with a high FTE
+      may look optimistic &mdash; WCI, the strongest off-angle baseline, discards 39.6% of samples against
+      GazeMM's 2.8%.</p>
+  </div>
+</section>
+
+
+<!-- ====================================================================== -->
+<!-- BIBTEX                                                                  -->
+<!-- ====================================================================== -->
+<section id="bibtex">
+  <div class="wrap">
+    <h2>BibTeX</h2>
+    <!-- EDIT: the paper is under review. On acceptance, delete the placeholder paragraph below,
+         uncomment the entry, and update booktitle/year. -->
+    <div class="tight">
+      <p>The paper is currently under review. A citation entry will be provided here upon acceptance.</p>
+    </div>
+    <!--
+    <div class="bib">
+      <button class="copy" type="button" data-copy>Copy</button>
+<pre id="bibtex-src">@inproceedings{<span class="bk">min2027gazemm</span>,
+  title     = {<span class="bs">GazeMM: Robust Off-Angle Iris Recognition via Gaze Manifold Matching</span>},
+  author    = {<span class="bs">Min, Yewon and Kim, Youngwook and Ryu, Moonwook and Lee, Jun Seong</span>},
+  booktitle = {<span class="bs">IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</span>},
+  year      = {<span class="bs">2027</span>}
+}</pre>
+    </div>
+    -->
+  </div>
+</section>
+
+
+<!-- ====================================================================== -->
+<!-- FOOTER                                                                  -->
+<!-- ====================================================================== -->
+<footer>
+  <div class="wrap">
+    <p><b>Ethics.</b> This study was conducted on previously collected human-subject data from publicly released
+      iris datasets, in accordance with their respective license agreements. No additional ethical approval was
+      required for this secondary analysis.</p>
+    <p>Page design adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project
+      page, released under a
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.</p>
+  </div>
+</footer>
+
+<script>
+  var copyBtn = document.querySelector('[data-copy]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function (e) {
+      var btn = e.currentTarget;
+      navigator.clipboard.writeText(document.getElementById('bibtex-src').innerText).then(function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
