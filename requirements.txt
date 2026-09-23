@@ -1,0 +1,11 @@
+# Core
+numpy
+pillow
+opencv-python
+scikit-learn
+tqdm
+
+# PyTorch (install the build matching your CUDA version, e.g.
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130)
+torch
+torchvision

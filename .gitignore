@@ -1,3 +1,24 @@
-# The manuscript PDF stays out of the public repo until after review.
-# The supplementary PDF is published, so it is deliberately not ignored.
-static/pdfs/GazeMM_paper.pdf
+# ---- data and checkpoints (regenerable, never committed) ----
+data/
+model_training_checkpoints/
+
+# ---- virtual environments ----
+.venv/
+venv/
+env/
+.env
+
+# ---- Python artifacts ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# ---- logs and outputs ----
+log_*.txt
+benchmark_out/
+
+# ---- editors ----
+.vscode/
+.idea/
